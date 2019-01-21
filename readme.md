@@ -51,7 +51,7 @@ switch to the directory and yarn start
 yarn add our apollo packages
 
 ```
-> yarn add apollo-boost react-apollo graphql
+> yarn add apollo-boost react-apollo graphql graphql-tag
 ```
 
 In our App component we'll create a client using ApolloBoost.
@@ -59,6 +59,19 @@ In our App component we'll create a client using ApolloBoost.
 ```
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
+import gql from "graphql-tag";
+
+const client = new ApolloClient({
+  uri: process.env.REACT_APP_GRAPHCMS_URI,
+});
+```
+
+We then pass that client to our ApolloProvider and wrap our code in the provider
+
+```
+<ApolloProvider client={client}>
+    ...our app stuff
+</ ApolloProvider>
 ```
 
 ## create a .env file
@@ -69,3 +82,12 @@ This will allow us to keep our secrets
 - yarn add dotenv
 - touch .env
 - REACT_APP_GRAPHCMS_URI="the uri string from your graphcms up"
+- After your inports in index.js
+
+```
+require("dotenv").config();
+```
+
+## Open your graphCMS
+
+Under settings in the graphCMS package set your Public API Permissions to "open"
