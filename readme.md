@@ -91,3 +91,39 @@ require("dotenv").config();
 ## Open your graphCMS
 
 Under settings in the graphCMS package set your Public API Permissions to "open"
+
+# Part 3
+
+Import the Query from react-apollo in App.js
+
+```
+import { ApolloProvider, Query } from "react-apollo";
+
+```
+
+Create a Query to pass in to our Query Component
+
+```
+const POSTS_QUERY = gql`
+  {
+    posts {
+      id
+      title
+      body
+    }
+  }
+`;
+```
+
+The graphql query returns several properties: data, loading, networkStatus, stale  
+Pull out the data and map over your posts. React requires a unique key for each element
+
+```
+<Query query={POSTS_QUERY}>
+    {({ loading, data }) => {
+        if (loading) return "...loading";
+        const { posts } = data;
+        return posts.map(post => <h1 key={post.id}>{post.title}</h1>);
+        }}
+    </Query>
+```
