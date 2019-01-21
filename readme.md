@@ -58,4 +58,14 @@ In our App component we'll create a client using ApolloBoost.
 
 ```
 import ApolloClient from 'apollo-boost'
+import { ApolloProvider } from 'react-apollo'
 ```
+
+## create a .env file
+
+This will allow us to keep our secrets
+
+- add '.env' to your .gitignore
+- yarn add dotenv
+- touch .env
+- REACT_APP_GRAPHCMS_URI="the uri string from your graphcms up"
