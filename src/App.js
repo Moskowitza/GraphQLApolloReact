@@ -6,7 +6,7 @@ import logo from "./logo.svg";
 import "./App.css";
 
 const client = new ApolloClient({
-  uri: "https://api-useast.graphcms.com/v1/cjr6neixl86hv01eqfzk984hh/master",
+  uri: process.env.REACT_APP_GRAPHCMS_URI,
 });
 
 const testQuery = gql`
