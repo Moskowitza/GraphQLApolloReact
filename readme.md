@@ -1,4 +1,4 @@
-#Part 1:
+# Part 1
 
 create a [graphCMS](https://graphcms.com) account  
 I used github to authenticate  
@@ -42,6 +42,20 @@ Let's Create a React App!!!
 switch to the directory and yarn start
 
 ```
->cd GraphQLApolloReact
->yarn start
+> cd GraphQLApolloReact
+> yarn start
+```
+
+## Set up Apollo
+
+yarn add our apollo packages
+
+```
+> yarn add apollo-boost react-apollo graphql
+```
+
+In our App component we'll create a client using ApolloBoost.
+
+```
+import ApolloClient from 'apollo-boost'
 ```
