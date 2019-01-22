@@ -101,11 +101,12 @@ import { ApolloProvider, Query } from "react-apollo";
 
 ```
 
-Create a Query to pass in to our Query Component
+Create a Query to pass in to our Query Component.
+Name your query to have access to it in Apollo Dev tools
 
 ```
 const POSTS_QUERY = gql`
-  {
+ query allPosts {
     posts {
       id
       title
@@ -125,5 +126,13 @@ Pull out the data and map over your posts. React requires a unique key for each 
         const { posts } = data;
         return posts.map(post => <h1 key={post.id}>{post.title}</h1>);
         }}
-    </Query>
+</Query>
+```
+
+# Part 4
+
+Set up our Router using react-router-dom
+
+```
+> yarn add react-router-dom
 ```
