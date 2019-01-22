@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import ApolloClient from "apollo-boost";
-import { ApolloProvider, Query } from "react-apollo";
+import { ApolloProvider } from "react-apollo";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Post from "./Posts/Post";
 import Posts from "./Posts/Posts";
+import AddPost from "./Posts/AddPost";
 import "./App.css";
 
 const client = new ApolloClient({
@@ -17,11 +18,14 @@ class App extends Component {
         <Router>
           <>
             <header>
-              <h1>Learn Apollo</h1>
+              <h1>Learn GraphQL-Apollo</h1>
+              <Link to={"/"}>home</Link>
+              <Link to={"/post/new"}>Add</Link>
             </header>
             <Switch>
               <Route exact path="/" component={Posts} />
-              <Route exact path="/" component={Posts} />
+              <Route path="/posts" component={Posts} />
+              <Route exact path="/post/new" component={AddPost} />
               <Route path="/post/:id" component={Post} />
             </Switch>
           </>

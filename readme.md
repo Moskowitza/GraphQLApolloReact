@@ -136,3 +136,112 @@ Set up our Router using react-router-dom
 ```
 > yarn add react-router-dom
 ```
+
+Keeping things in App.js
+
+```
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+//in the componenet's render return statement
+<Router>
+    <>
+    <Switch>
+    <Route exact path="/" component={Posts} />
+    <Route exact path="/posts" component={Posts} />
+    <Route path="/post/:id" component={Post} />
+    </Switch>
+    </>
+</Router>
+```
+
+Create react components for Posts and a single Post. The Posts component will hae a list of blog posts and link to the individual post using the id and react-router-dom Link.
+Use the Query from
+
+```
+import React, { Component } from "react";
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
+import { Link } from "react-router-dom";
+const POSTS_QUERY = gql`
+  query allPosts {
+    posts {
+      id
+      title
+      body
+    }
+  }
+`;
+///in our exported component
+<Query query={POSTS_QUERY}>
+    {({ loading, data }) => {
+    if (loading) return "...loading";
+    const { posts } = data;
+    return posts.map(post => (
+        <div key={post.id}>
+        <Link to={`/post/${post.id}`}>
+        <h1>Title: {post.title}</h1>
+        </Link>
+        </div>
+    ));
+    }}
+</Query>
+```
+
+Take the post.id from our params to query for the specific post data.
+
+- our query needs to be told the id is required. \$id: ID!
+- The ID is passed to the Query in the render
+
+```
+const SINGLE_POST_BY_ID_QUERY = gql`
+  query singlePost($id: ID!) {
+    post(where: { id: $id }) {
+      id
+      title
+      body
+    }
+  }
+`;
+export default class Post extends Component {
+  render() {
+    const { match } = this.props;
+    return (
+      <>
+        <h2> Single Post</h2>
+        <Query
+          query={SINGLE_POST_BY_ID_QUERY}
+          variables={{ id: match.params.id }}
+        >
+          {({ data, loading }) => {
+            if (loading) return "...loading";
+            const { post } = data;
+            return (
+              <>
+                <h1>{post.title}</h1>
+                <div>{post.body}</div>
+              </>
+            );
+          }}
+        </Query>
+      </>
+    );
+  }
+}
+```
+
+# Part 5
+
+Mutations in graphGL need data coming in and return something after the data is stored.
+
+```
+mutation addPost{
+    createPost(data:{
+        status:PUBLISHED
+        title: "our first mutation"
+        body: "New Post body text"
+    }){
+        title
+        body
+        id
+    }
+}
+```
