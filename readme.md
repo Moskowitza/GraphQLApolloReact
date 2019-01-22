@@ -245,3 +245,88 @@ mutation addPost{
     }
 }
 ```
+
+Create a component that will add a blog post. We will use the usual syntax of updating a input fields. The value of the input will be set to the state of the component. [Controlled Components](https://reactjs.org/docs/forms.html#controlled-components)
+
+The AddPost.js component will have
+
+- import statements
+- Our gql mutation
+- state holding our title and body
+- onChange event handler that sets the e.target.name=e.target.value
+- form inputs that are wrapped in our Mutation Component.
+
+```
+<Mutation
+    mutation={NEW_POST}
+    variables={{
+        <!-- Using ES6 we can simply declare our properties and values -->
+        title,
+        body,
+    }}
+    >
+```
+
+- Set our form submit function
+
+```
+{createPost => (
+<form
+  onSubmit={e => {
+    e.preventDefault();
+    createPost()
+      .then(() => {
+        this.setState({
+          title: "",
+          body: "",
+        });
+      })
+      .catch(err => console.log(err));
+  }}
+>
+    ...inputs
+    ...button
+</form>
+)}
+```
+
+- the Apollo client wraps everything in App.js so it is not needed in this individual component.
+
+# part 6
+
+Let's konmarie our code by moving the Form out of the AddPost component into a PostForm component. That way we can use the same form whether we are creating a new post or updating an exisiting post. For an existing post, we'd set the state of the form to the existing title and body
+
+## renderProps
+
+Pass the createPost method to the PostForm component. In our AddPost we'd set onSubmit to createPost, but you can imagine passing updatePost from UpdatePost component.
+
+```
+{createPost => <PostForm onSubmit={createPost} />}
+
+```
+
+And in our PostForm component update the onSubmit to be passed in by props. The Variables are now set in the PostForm component's onSubmit function.
+
+```
+const { onSubmit } = this.props;
+return (
+<form
+  onSubmit={e => {
+    e.preventDefault();
+    onSubmit({
+      variables: {
+        title,
+        body,
+      },
+    })
+      .then(() => {
+        this.setState({
+          title: "",
+          body: "",
+        });
+      })
+      .catch(err => console.log(err));
+  }}
+>
+    ...The rest of the code
+```

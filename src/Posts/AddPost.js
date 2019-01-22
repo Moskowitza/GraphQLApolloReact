@@ -14,58 +14,12 @@ const NEW_POST = gql`
 `;
 
 export default class AddPost extends Component {
-  state = {
-    title: "",
-    body: "",
-  };
-  handleInput = e => {
-    const formData = {};
-    formData[e.target.name] = e.target.value;
-    this.setState({ ...formData });
-  };
   render() {
-    const { title, body } = this.state;
     return (
       <>
         <h1> Add A Post</h1>
-        <Mutation
-          mutation={NEW_POST}
-          variables={{
-            title,
-            body,
-          }}
-        >
-          {createPost => (
-            <form
-              onSubmit={e => {
-                e.preventDefault();
-                createPost()
-                  .then(() => {
-                    this.setState({
-                      title: "",
-                      body: "",
-                    });
-                  })
-                  .catch(err => console.log(err));
-              }}
-            >
-              <input
-                name="title"
-                type="text"
-                value={title}
-                onChange={this.handleInput}
-                placeholder="New Title"
-              />
-              <textarea
-                name="body"
-                type="text"
-                value={body}
-                onChange={this.handleInput}
-                placeholder="Body..."
-              />
-              <button>Submit</button>
-            </form>
-          )}
+        <Mutation mutation={NEW_POST}>
+          {createPost => <PostForm onSubmit={createPost} />}
         </Mutation>
       </>
     );
