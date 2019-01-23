@@ -330,3 +330,58 @@ return (
 >
     ...The rest of the code
 ```
+
+# part 7
+
+Update a post using the same form, but this time we'll pass along the post data through props.
+
+- Create a new UpdatePost component
+- pass the individual post to that component from within Post.js
+
+```
+<UpdatePost post={post} />
+```
+
+- UpdatePost.js has a new Mutation declared
+
+```
+const UPDATE_POST = gql`
+  mutation updatePost($id: ID!, $title: String!, $body: String!) {
+    updatePost(
+      where: { id: $id }
+      data: { status: PUBLISHED, title: $title, body: $body }
+    ) {
+      title
+      body
+      id
+    }
+  }
+`;
+... and in the component we can reuse our PostForm and pass along post as a prop
+
+  render() {
+    const { post } = this.props;
+    return (
+      <Mutation mutation={UPDATE_POST}>
+        {updatePost => <PostForm post={post} onSubmit={updatePost} />}
+      </Mutation>
+    );
+  }
+```
+
+The postForm needs some more information to work. Instead of setting state just to empty strings, use the post data if it exists.
+And again, add id to the variables being used by the mutation.
+
+```
+  state = {
+    id: this.props.post.id || "",
+    title: this.props.post.title || "",
+    body: this.props.post.body || "",
+  };
+```
+
+# Next steps
+
+## Apollo Link State
+
+maybe we can

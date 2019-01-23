@@ -19,8 +19,7 @@ class App extends Component {
           <>
             <header>
               <h1>Learn GraphQL-Apollo</h1>
-              <Link to={"/"}>home</Link>
-              <Link to={"/post/new"}>Add</Link>
+              <Link to={"/"}>home</Link> | <Link to={"/post/new"}>Add</Link>
             </header>
             <Switch>
               <Route exact path="/" component={Posts} />
