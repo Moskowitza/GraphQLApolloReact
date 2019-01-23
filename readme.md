@@ -370,9 +370,16 @@ const UPDATE_POST = gql`
 ```
 
 The postForm needs some more information to work. Instead of setting state just to empty strings, use the post data if it exists.
-And again, add id to the variables being used by the mutation.
+And again, add id to the variables being used by the mutation. Set a default prop for posts.
 
 ```
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    post: PropTypes.object,
+  };
+  static defaultProps = {
+    post: {},
+  };
   state = {
     id: this.props.post.id || "",
     title: this.props.post.title || "",
@@ -380,8 +387,23 @@ And again, add id to the variables being used by the mutation.
   };
 ```
 
+# Pagination
+
+graphCMS API has a way to limit and sort our queries.
+
+```
+const POSTS_QUERY = gql`
+  query allPosts($skip: Int) {
+    posts(orderBy: createdAt_DESC, first: 3, skip: $skip) {
+      id
+      title
+      body
+    }
+  }
+```
+
+Use the "fetchMore" function returned from our query and pass it how many more you'd like to fetch.
+
 # Next steps
 
 ## Apollo Link State
-
-maybe we can
