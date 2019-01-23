@@ -389,7 +389,7 @@ And again, add id to the variables being used by the mutation. Set a default pro
 
 # Pagination
 
-graphCMS API has a way to limit and sort our queries.
+graphCMS API has a way to limit and sort our queries. We'll need to pass in how many to skip when we run our fetchMore function. For our purpose we'll skip the ones already on the page determined by the length of the post array.
 
 ```
 const POSTS_QUERY = gql`
@@ -402,8 +402,37 @@ const POSTS_QUERY = gql`
   }
 ```
 
-Use the "fetchMore" function returned from our query and pass it how many more you'd like to fetch.
+use an onClick handler to run our "fetchMore" function. If there are more results we'll then rebuild the posts array. We pass an object to fetchMore that has
+
+- variables
+- updateQuery: which is a function.
+
+```
+ <button
+  onClick={() =>
+    fetchMore({
+      variables: {
+        skip: posts.length,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+       //if there are no more just return prev
+        if (!fetchMoreResult) return prev;
+      //otherwise spread them into our posts array
+        return Object.assign({}, prev, {
+        posts: [...prev.posts, ...fetchMoreResult.posts],
+        });
+      },
+    })
+  }
+ >
+  ➕
+</button>
+```
 
 # Next steps
+
+## Optimistic UI
+
+## Apollo Persistent Cache
 
 ## Apollo Link State
