@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Post from "./Posts/Post";
 import Posts from "./Posts/Posts";
 import AddPost from "./Posts/AddPost";
+import Login from "./Users/Login";
+
 import "./App.css";
 
 const client = new ApolloClient({
@@ -19,13 +21,16 @@ class App extends Component {
           <>
             <header>
               <h1>Learn GraphQL-Apollo</h1>
-              <Link to={"/"}>home</Link> | <Link to={"/post/new"}>Add</Link>
+              <Link to={"/"}>home</Link>
+              <Link to={"/post/new"}>Add</Link>
+              <Link to="/login">login</Link>
             </header>
             <Switch>
               <Route exact path="/" component={Posts} />
               <Route path="/posts" component={Posts} />
               <Route exact path="/post/new" component={AddPost} />
               <Route path="/post/:id" component={Post} />
+              <Route exact path="/login" component={Login} />
             </Switch>
           </>
         </Router>

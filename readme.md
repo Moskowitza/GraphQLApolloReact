@@ -436,3 +436,7 @@ use an onClick handler to run our "fetchMore" function. If there are more result
 ## Apollo Persistent Cache
 
 ## Apollo Link State
+
+## Authentication
+
+[HowToGraphQL](https://www.howtographql.com/react-apollo/5-authentication/)
